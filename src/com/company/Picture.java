@@ -122,6 +122,46 @@ public class Picture extends SimplePicture
       }
     }
   }
+
+  public void fixUnderwater(){
+    Pixel[][] pixels = this.getPixels2D();
+    for (Pixel[] rowArray : pixels)
+    {
+      for (Pixel pixelObj : rowArray)
+      {
+        double f = 2.4;//contrast correction factor, determined experimentally
+        int avg = (pixelObj.getRed() + pixelObj.getGreen() + pixelObj.getBlue())/3;
+        pixelObj.setRed((int)((pixelObj.getRed() - 150) * f + 80));
+        pixelObj.setGreen((int)((pixelObj.getGreen() - 150) * f + 80));
+        pixelObj.setBlue((int)((pixelObj.getBlue() - 150) * f + 80));
+      }
+    }
+  }
+  public double colorDistance(Pixel p1, Pixel p2){
+    double red = Math.pow((p1.getRed() - p2.getRed()), 2);
+    double green = Math.pow((p1.getGreen() - p2.getGreen()), 2);
+    double blue = Math.pow((p1.getBlue() - p2.getBlue()), 2);
+    double distance = Math.sqrt(red+green+blue);
+    return distance;
+  }
+  public void edgeDetection(double edgeDistance){
+    Pixel l = null;
+    Pixel r = null;
+    Pixel[][] pixels = this.getPixels2D();
+    Color rightColor = null;
+    for(int i = 0; i < pixels.length; i++){
+      for(int j = 0; j < pixels[0].length-1; j++){
+        l = pixels[i][j];
+        r=pixels[i][j+1];
+        rightColor = r.getColor();
+        if(colorDistance(r, l) > edgeDistance)
+          l.setColor(Color.WHITE);
+        else
+          r.setColor(Color.BLACK);
+
+      }
+    }
+  }
   /** Method to set the blue to 0 */
   public void zeroBlue()
   {
