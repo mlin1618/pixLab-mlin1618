@@ -4,7 +4,34 @@ public class IntArrayWorker
 {
   /** two dimensional matrix */
   private int[][] matrix = null;
-  
+
+  public int getCount(int a){
+    int count = 0;
+    for(int i = 0; i < matrix.length; i++){
+      for(int j = 0; j < matrix[0].length; j++){
+        if(matrix[i][j] == a)
+          count++;
+      }
+    }
+    return count;
+  }
+  public int getLargest(){
+    int max = 0;
+    for(int i = 0; i < matrix.length; i++){
+      for(int j = 0; j < matrix[0].length; j++){
+        if(matrix[i][j] > max)
+          max = matrix[i][j];
+      }
+    }
+    return max;
+  }
+  public int getColTotal(int b){
+    int total = 0;
+    for(int i = 0; i < matrix.length; i++){
+      total+=matrix[i][b];
+    }
+    return total;
+  }
   /** set the matrix to the passed one
     * @param theMatrix the one to use
     */
